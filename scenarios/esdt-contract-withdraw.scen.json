@@ -1,0 +1,55 @@
+{
+    "name": "withdraw",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "esdt-contract-fund.scen.json"
+        },
+
+        {
+            "step": "scCall",
+            "id": "withdraw-1",
+            "tx": {
+                "from": "address:user1",
+                "to": "sc:esdt",
+                "function": "withdraw",
+                "arguments": ["str:CROWD-123456"],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "address:my_address": {
+                    "nonce": "1",
+                    "balance": "1,000,000",
+                    "storage": {}
+                },
+                "address:user1": {
+                    "nonce": "2",
+                    "balance": "0",
+                    "esdt": {
+                        "str:CROWD-123456": "400,000,000,000"
+                    },
+                    "storage": {}
+                },
+                "sc:esdt": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "esdt": {
+                        "str:CROWD-123456": "0"
+                    },
+                   
+                    "code": "file:../output/esdt-contract.wasm"
+                }
+            }
+        }
+    ]
+}

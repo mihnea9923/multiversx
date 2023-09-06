@@ -1,0 +1,159 @@
+{
+    "name": "deposit",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "esdt-contract-init.scen.json"
+        },
+        {
+            "step": "setState",
+            "accounts": {
+                "address:user1": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "esdt": {
+                        "str:CROWD-123456": "400,000,000,000"
+                    }
+                },
+                "address:user2": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "esdt": {
+                        "str:CROWD-123456": "400,000,000,000"
+                    }
+                }
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "deposit-1",
+            "tx": {
+                "from": "address:user1",
+                "to": "sc:esdt",
+                "esdtValue": [
+                    {
+                        "tokenIdentifier": "str:CROWD-123456",
+                        "value": "250,000,000,000"
+                    }
+                ],
+                "function": "deposit",
+                "arguments": [],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "deposit-2",
+            "tx": {
+                "from": "address:user2",
+                "to": "sc:esdt",
+                "esdtValue": [
+                    {
+                        "tokenIdentifier": "str:CROWD-123456",
+                        "value": "250,000,000,000"
+                    }
+                ],
+                "function": "deposit",
+                "arguments": [],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "transfer batch-1",
+            "tx": {
+                "from": "address:user1",
+                "to": "sc:esdt",
+                "function": "safe_batch_transfer_from",
+                "arguments": [
+                    "address:user1",
+                    "address:user2",
+                    [
+                        "str:CROWD-123456",
+                        "str:CROWD-123456"
+                    ],
+                    [
+                        "biguint:125,000,000,000",
+                        "biguint:125,000,000,000"
+                    ]
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "withdraw-1",
+            "tx": {
+                "from": "address:user2",
+                "to": "sc:esdt",
+                "function": "withdraw",
+                "arguments": [
+                    "str:CROWD-123456"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "address:my_address": {
+                    "nonce": "1",
+                    "balance": "1,000,000",
+                    "storage": {}
+                },
+                "address:user1": {
+                    "nonce": "3",
+                    "balance": "0",
+                    "esdt": {
+                        "str:CROWD-123456": "150,000,000,000"
+                    },
+                    "storage": {}
+                },
+                "address:user2": {
+                    "nonce": "1",
+                    "balance": "0",
+                    "esdt": {
+                        "str:CROWD-123456": "750,000,000,000"
+                    },
+                    "storage": {}
+                },
+                "sc:esdt": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "esdt": {
+                        "str:CROWD-123456": "0"
+                    },
+                    "code": "file:../output/esdt-contract.wasm"
+                }
+            }
+        }
+    ]
+}
