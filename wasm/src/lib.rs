@@ -5,9 +5,9 @@
 ////////////////////////////////////////////////////
 
 // Init:                                 1
-// Endpoints:                            4
+// Endpoints:                            7
 // Async Callback (empty):               1
-// Total number of exported functions:   6
+// Total number of exported functions:   9
 
 #![no_std]
 
@@ -25,7 +25,10 @@ multiversx_sc_wasm_adapter::endpoints! {
         deposit => deposit
         withdraw => withdraw
         safe_batch_transfer_from => safe_batch_transfer_from
+        balance_of_batch => balance_of_batch
+        set_approval_for_all => set_approval_for_all
         getDeposit => storage
+        getApproval => approval
     )
 }
 

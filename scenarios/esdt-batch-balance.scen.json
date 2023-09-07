@@ -8,12 +8,12 @@
 
         {
             "step": "scCall",
-            "id": "withdraw-1",
+            "id": "balance-of-batch-1",
             "tx": {
                 "from": "address:user1",
                 "to": "sc:esdt",
-                "function": "withdraw",
-                "arguments": ["100,000,000,000","str:CROWD-123456"],
+                "function": "balance_of_batch",
+                "arguments": [["address:user1"], ["str:CROWD-123456"]],
                 "gasLimit": "100,000,000",
                 "gasPrice": "0"
             },
@@ -36,7 +36,7 @@
                     "nonce": "2",
                     "balance": "0",
                     "esdt": {
-                        "str:CROWD-123456": "250,000,000,000"
+                        "str:CROWD-123456": "150,000,000,000"
                     },
                     "storage": {}
                 },
@@ -44,7 +44,7 @@
                     "nonce": "0",
                     "balance": "0",
                     "esdt": {
-                        "str:CROWD-123456": "150,000,000,000"
+                        "str:CROWD-123456": "250,000,000,000"
                     },
                    
                     "code": "file:../output/esdt-contract.wasm"
